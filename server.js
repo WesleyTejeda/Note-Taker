@@ -1,78 +1,79 @@
-var http = require("http");
-var fs = require("fs");
+const http = require("http");
+const fs = require("fs");
 
-var PORT = 8080;
+let PORT = 8080;
 
 function handleRequest(req, res) {
-    var path = req.url;
+    let path = req.url;
+    console.log(req.method);
+    if(path === "/api/notes"){
+        if (req.method === "GET"){
+            // Saving the request data as a variable
+            var requestData = "";
 
-    if (req.method == 'POST') {
-        // Saving the request data as a variable
-        var requestData = "";
-
-        // When the server receives data...
-        req.on("data", function(data) {
+            // When the server receives data...
+            req.on("data", function(data) {
 
             // Add it to requestData.
             requestData += data;
-        });
+            });
 
-        // When the request has ended...
-        req.on("end", function() {
+            // When the request has ended...
+            req.on("end", function() {
 
             // Log (server-side) the request method, as well as the data received!
             console.log("You did a", req.method, "with the data:\n", requestData);
             res.end();
-        });
-    }
-
-    if (req.method == 'GET') {
-        // Saving the request data as a variable
-        var requestData = "";
-
-        // When the server receives data...
-        req.on("data", function(data) {
-
-            // Add it to requestData.
-            requestData += data;
-        });
-
-        // When the request has ended...
-        req.on("end", function() {
-
-            // Log (server-side) the request method, as well as the data received!
-            console.log("You did a", req.method, "with the data:\n", requestData);
-            res.end();
-        });
-    }
-
-    if (req.method == 'DELETE') {
-        // Saving the request data as a variable
-        var requestData = "";
-
-        // When the server receives data...
-        req.on("data", function(data) {
-
-            // Add it to requestData.
-            requestData += data;
-        });
-
-        // When the request has ended...
-        req.on("end", function() {
-
-            // Log (server-side) the request method, as well as the data received!
-            console.log("You did a", req.method, "with the data:\n", requestData);
-            res.end();
-        });
-    }
+            });
+        }
     
+        if (req.method === "POST"){
+            // Saving the request data as a variable
+            var requestData = "";
+
+            // When the server receives data...
+            req.on("data", function(data) {
+
+            // Add it to requestData.
+            requestData += data;
+            });
+
+            // When the request has ended...
+            req.on("end", function() {
+
+            // Log (server-side) the request method, as well as the data received!
+            console.log("You did a", req.method, "with the data:\n", requestData);
+            res.end();
+            });
+        }
+        if (req.method === "DELETE"){
+            // Saving the request data as a variable
+            var requestData = "";
+
+            // When the server receives data...
+            req.on("data", function(data) {
+
+            // Add it to requestData.
+            requestData += data;
+            });
+
+            // When the request has ended...
+            req.on("end", function() {
+
+            // Log (server-side) the request method, as well as the data received!
+            console.log("You did a", req.method, "with the data:\n", requestData);
+            res.end();
+            });
+        }
+    }
+   
     switch (path) {
         case "/notes":
-            return displayNotes();
-        case "*":
-            return displayIndex();
+            return displayNotes(res);
+        case "/":
+            return displayIndex(res);
         default:
-            return displayErr404();
+            return displayErr404(res);
     } 
 }
 
@@ -82,14 +83,30 @@ server.listen(PORT, function() {
     console.log("Server listening on: http://localhost:" + PORT);
   });
   
-function displayNotes() {
+function displayNotes(res) {
     //Write out code to display notes.html
+    fs.readFile(__dirname+"/public/notes.html", function(err, data){
+        if (err)
+            throw err;
+        res.writeHead(200, { "Content-Type": "text/html" });
+        res.end(data);
+    })
 }
 
-function displayIndex() {
+function displayIndex(res) {
     //Write out code to display index.html
+    fs.readFile(__dirname+"/public/index.html", function(err, data){
+        if (err)
+            throw err;
+        res.writeHead(200, { "Content-Type": "text/html" });
+        res.end(data);
+    })
+    
 }
 
-function displayErr404(){
+function displayErr404(res){
     //Write out code to display 404 page
+    var myHTML = "<h1>404</h1>";
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.end(myHTML);
 }

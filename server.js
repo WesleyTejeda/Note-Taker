@@ -96,6 +96,7 @@ app.post("/api/notes", (req, res) => {
     let newNote = {
         title: req.body.title,
         text: req.body.text,
+        id: Math.floor(Math.random()*999999999)
     };
     fs.readFile(__dirname+'/db/db.json', 'utf-8', (err, data) => {
         if (err)
@@ -112,6 +113,30 @@ app.post("/api/notes", (req, res) => {
     })
 });
 
+app.delete("/api/notes/:id", (req, res) => {
+    console.log(req.params);
+    //req.params = {id: ~};
+    let objToDel;
+    fs.readFile(__dirname+'/db/db.json', 'utf-8', (err, data) => {
+        if (err)
+            res.status(500).json({message: "File not found."});
+        let oldJson = JSON.parse(data);
+        oldJson.forEach(object => {
+            console.log(object);
+            if(object.id == req.params.id)
+                objToDel = object;
+        });
+        console.log(objToDel);
+        let indexDel = oldJson.indexOf(objToDel);
+        console.log(indexDel);
+        oldJson.splice(indexDel, indexDel+1);
+        fs.writeFile(__dirname+'/db/db.json', JSON.stringify(oldJson), (err) => {
+            if (err)
+                res.status(500).json({message: "Error."});
+            res.status(200).json({message: "Successful"}); 
+        })
+    });
+})
 // app.use(router);
 
 app.listen(PORT);

@@ -14,7 +14,6 @@ const getNotes = () => {
     method: "GET",
   });
 };
-
 // A function for saving a note to the db
 const saveNote = (note) => {
   return $.ajax({
@@ -68,7 +67,7 @@ const handleNoteDelete = function (event) {
   event.stopPropagation();
 
   const note = $(this).parent(".list-group-item").data();
-
+  console.log(note);
   if (activeNote.id === note.id) {
     activeNote = {};
   }

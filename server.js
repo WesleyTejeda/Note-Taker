@@ -62,25 +62,56 @@
 //     res.writeHead(200, { "Content-Type": "text/html" });
 //     res.end(myHTML);
 // }
-
 const express = require("express");
-const app = express();
-var path = require('path');
-let PORT = 8080;
+const fs = require("fs");
+const bodyParser = require("body-parser");
+const path = require('path');
 const router = express.Router();
+let PORT = 8080;
+const app = express();
 
-router.use((req, res, next) => {
-    next();
-})
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(express.static('public'));
 
-router.get("/", (req, res) => {
+// router.use((req, res, next) => {
+//     next();
+// })
+
+
+app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname + '/public/index.html'));
 });
 
-router.get("/notes", (req, res) => {
+app.get("/notes", (req, res) => {
     res.sendFile(path.join(__dirname + '/public/notes.html'));
 });
 
-app.use(router);
+//Returns JSON 
+app.get("/api/notes", (req, res) => {
+    res.sendFile(path.join(__dirname + '/db/db.json'));
+});
+
+app.post("/api/notes", (req, res) => {
+    let newNote = {
+        title: req.body.title,
+        text: req.body.text,
+    };
+    fs.readFile(__dirname+'/db/db.json', 'utf-8', (err, data) => {
+        if (err)
+            res.status(500).json({message: "File not found."});
+        let oldJson = JSON.parse(data);
+        console.log(oldJson[0], typeof(oldJson));
+        oldJson.push(newNote);
+
+        fs.writeFile(__dirname+'/db/db.json', JSON.stringify(oldJson), (err) => {
+            if (err)
+                res.status(500).json({message: "Error."});
+            res.status(200).json({message: "Successful"}); 
+        })
+    })
+});
+
+// app.use(router);
 
 app.listen(PORT);

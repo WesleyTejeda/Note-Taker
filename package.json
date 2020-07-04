@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "logo": "http://node-js-sample.herokuapp.com/node.svg",
+  "image": "heroku/nodejs",
   "scripts": {
     "start": "node server.js"
   },

@@ -3,7 +3,7 @@ const fs = require("fs");
 const bodyParser = require("body-parser");
 const path = require('path');
 const router = express.Router();
-let PORT = 8080;
+let PORT = process.env.PORT || 8080;
 const app = express();
 app.listen(PORT);
 

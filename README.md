@@ -2,7 +2,7 @@
 by ```Wesley Tejeda```<br>
 
 Repository Link: https://github.com/wesleytejeda/Note-Taker<br>
-Heroku Deployed: https://notes-manager-v1.herokuapp.com/notes
+Heroku Deployed: https://notes-manager-v1.herokuapp.com
 ## Demo
 
 ## Description

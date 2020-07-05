@@ -9,7 +9,7 @@ Heroku Deployed: https://notes-manager-v1.herokuapp.com
 In this repository I've created a note editor that is hosted by a server and has routes for different requests.
 
 ## Installation
-Install command: npm init
+Install command: npm install
 ## Usage
 After installing using  the instructions above, use the command ```node server.js``` in order to execute the server. Then go to localhost:8080/ to view index webpage.
 

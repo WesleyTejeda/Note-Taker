@@ -2,7 +2,6 @@ const express = require("express");
 const fs = require("fs");
 const bodyParser = require("body-parser");
 const path = require('path');
-const router = express.Router();
 let PORT = process.env.PORT || 8080;
 const app = express();
 app.listen(PORT);
@@ -13,7 +12,7 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 
 
-app.get("/", (req, res) => {
+app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname + '/public/index.html'));
 });
 
@@ -49,7 +48,6 @@ app.post("/api/notes", (req, res) => {
 });
 
 app.delete("/api/notes/:id", (req, res) => {
-    console.log(req.params);
     //req.params = {id: ~};
     let objToDel;
     fs.readFile(__dirname+'/db/db.json', 'utf-8', (err, data) => {
@@ -61,13 +59,10 @@ app.delete("/api/notes/:id", (req, res) => {
             if(object.id == req.params.id)
                 objToDel = object;
         });
-        console.log(objToDel);
         let indexDel = oldJson.indexOf(objToDel);
-        console.log(indexDel);
         if(indexDel === 0)
             oldJson.shift();
         else oldJson.splice(indexDel, 1);
-        console.log(oldJson);
         fs.writeFile(__dirname+'/db/db.json', JSON.stringify(oldJson), (err) => {
             if (err)
                 res.status(500).json({message: "Error."});

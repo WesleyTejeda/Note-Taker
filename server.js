@@ -19,7 +19,7 @@ app.get("/api/notes", (req, res) => {
 });
 
 app.post("/api/notes", (req, res) => {
-    let id = 0;
+    let id = 1;
     fs.readFile(__dirname+'/db/db.json', 'utf-8', (err, data) => {
         if (err)
             res.status(500).json({message: "File not found."});

@@ -6,15 +6,9 @@ let PORT = process.env.PORT || 8080;
 const app = express();
 app.listen(PORT);
 
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static('public'));
-
-
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname + '/public/index.html'));
-});
 
 app.get("/notes", (req, res) => {
     res.sendFile(path.join(__dirname + '/public/notes.html'));
@@ -70,3 +64,7 @@ app.delete("/api/notes/:id", (req, res) => {
         })
     });
 })
+
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname + '/public/index.html'));
+});

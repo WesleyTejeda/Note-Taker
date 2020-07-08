@@ -54,9 +54,7 @@ app.delete("/api/notes/:id", (req, res) => {
                 objToDel = object;
         });
         let indexDel = oldJson.indexOf(objToDel);
-        if(indexDel === 0)
-            oldJson.shift();
-        else oldJson.splice(indexDel, 1);
+        oldJson.splice(indexDel, 1);
         fs.writeFile(__dirname+'/db/db.json', JSON.stringify(oldJson), (err) => {
             if (err)
                 res.status(500).json({message: "Error."});

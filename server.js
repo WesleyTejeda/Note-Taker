@@ -49,7 +49,6 @@ app.delete("/api/notes/:id", (req, res) => {
             res.status(500).json({message: "File not found."});
         let oldJson = JSON.parse(data);
         oldJson.forEach(object => {
-            console.log(object);
             if(object.id == req.params.id)
                 objToDel = object;
         });

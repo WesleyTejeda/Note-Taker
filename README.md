@@ -4,7 +4,7 @@ by ```Wesley Tejeda```<br>
 Repository Link: https://github.com/wesleytejeda/Note-Taker<br>
 Heroku Deployed: https://notes-manager-v1.herokuapp.com
 ## Demo
-
+!['GIF of deployed site'](./demo/note_taker_demo.gif)
 ## Description
 In this repository I've created a note editor that is hosted by a server and has routes for different requests.
 
